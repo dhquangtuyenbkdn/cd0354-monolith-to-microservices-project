@@ -28,8 +28,15 @@ export class ApiService {
   }
 
   setAuthToken(token) {
-    this.httpOptions.headers = this.httpOptions.headers.append('Authorization', `jwt ${token}`);
+    if(this.httpOptions.headers.has('Authorization')) {
+      console.log("Delete Authorization: " + token);
+      this.httpOptions.headers = this.httpOptions.headers.set('Authorization', `jwt ${token}`);
+    } else {
+      this.httpOptions.headers = this.httpOptions.headers.append('Authorization', `jwt ${token}`);
+    }
     this.token = token;
+    console.log("token: " + token);
+    console.log("headers: " +  this.httpOptions.headers);
   }
 
   get(endpoint): Promise<any> {
